@@ -13,7 +13,7 @@ jobs:
 
       - name: Localizar projeto
         run: |
-          echo "Arquivos no repositório:"
+          echo "Arquivos no repositorio:"
           ls -lah
 
           ZIP=$(find . -maxdepth 1 -type f -name 'EsbocoBiblicoApp_v*.zip' | head -1)

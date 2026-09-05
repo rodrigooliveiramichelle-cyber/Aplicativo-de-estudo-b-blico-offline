@@ -1,0 +1,38 @@
+name: Gerar APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar arquivos do repositório
+        uses: actions/checkout@v4
+
+      - name: Preparar projeto
+        run: |
+          unzip -q EsbocoBiblicoApp_v25.zip -d projeto
+          cd projeto
+          echo "Projeto preparado"
+          ls -la
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Instalar Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Compilar APK
+        working-directory: projeto
+        run: gradle assembleDebug --no-daemon
+
+      - name: Disponibilizar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: EsbocoBiblicoApp-APK
+          path: projeto/app/build/outputs/apk/debug/*.apk
